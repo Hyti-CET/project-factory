@@ -1,0 +1,22 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    gcloud secrets versions access latest --secret="terraform-sa-key" > service-account-key.json
+
+- name: 'hashicorp/terraform:1.5.0'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+    terraform init
+    terraform plan -auto-approve
+    terraform apply -auto-approve
+  env:
+  - 'GOOGLE_APPLICATION_CREDENTIALS=service-account-key.json'
+
+substitutions:
+  _PROJECT_ID: 'your-new-project-id'
+  _BILLING_ACCOUNT_ID: 'your-billing-account-id'
