@@ -1,0 +1,21 @@
+provider "google" {
+  credentials = file("service-account-key.json")
+  project     = "{{ data.billing_project_id }}"
+  region      = "{{ data.region }}"
+}
+
+resource "google_project" "new_project" {
+  name            = "{{ data.project_name }}"
+  project_id      = "{{ data.project_id }}"
+  billing_account = "{{ data.billing_account_id }}"
+}
+
+resource "google_project_iam_member" "admin_role" {
+  project = google_project.new_project.project_id
+  role    = "roles/owner"
+  member  = "serviceAccount:{{ data.owner_email }}"
+}
+
+resource "google_compute_network" "new_vpc" {
+  name = "{{ data.vpc_name }}"
+}
