@@ -4,7 +4,7 @@ steps:
   args:
   - '-c'
   - |
-    git clone https://github.com/seu-repositorio.git && cd seu-repositorio
+    git clone https://github.com/Hyti-CET/project-factory.git && cd seu-repositorio
 
 - name: 'hashicorp/terraform'
   entrypoint: 'sh'
