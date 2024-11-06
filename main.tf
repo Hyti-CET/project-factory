@@ -1,3 +1,7 @@
+provider "google" {
+  project     = "azure-integration-405515"
+}
+
 variable "project_name" {}
 variable "owner_email" {}
 
