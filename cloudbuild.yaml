@@ -19,4 +19,4 @@ substitutions:
   _PROJECT_NAME: 'nome-do-projeto'
   _OWNER_EMAIL: 'email-do-solicitante'
 
-serviceAccount: 'SERVICE_ACCOUNT@SEU_PROJETO.iam.gserviceaccount.com'
+serviceAccount: 'azure-devops@azure-integration-405515.iam.gserviceaccount.com'
