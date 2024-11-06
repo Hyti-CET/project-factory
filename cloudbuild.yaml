@@ -1,22 +1,22 @@
 steps:
-- name: 'gcr.io/cloud-builders/gcloud'
+- name: 'gcr.io/cloud-builders/git'
   entrypoint: 'bash'
   args:
   - '-c'
   - |
-    gcloud secrets versions access latest --secret="terraform-sa-key" > service-account-key.json
+    git clone https://github.com/seu-repositorio.git && cd seu-repositorio
 
-- name: 'hashicorp/terraform:1.5.0'
+- name: 'hashicorp/terraform'
   entrypoint: 'sh'
   args:
   - '-c'
   - |
-    terraform init
-    terraform plan -auto-approve
-    terraform apply -auto-approve
-  env:
-  - 'GOOGLE_APPLICATION_CREDENTIALS=service-account-key.json'
+    terraform init && terraform apply -var "project_name=p-${_PROJECT_NAME}" -var "owner_email=${_OWNER_EMAIL}" -auto-approve
+
+timeout: '1200s'  # Timeout de 20 minutos
 
 substitutions:
-  _PROJECT_ID: 'your-new-project-id'
-  _BILLING_ACCOUNT_ID: 'your-billing-account-id'
+  _PROJECT_NAME: 'nome-do-projeto'
+  _OWNER_EMAIL: 'email-do-solicitante'
+
+serviceAccount: 'SERVICE_ACCOUNT@SEU_PROJETO.iam.gserviceaccount.com'
