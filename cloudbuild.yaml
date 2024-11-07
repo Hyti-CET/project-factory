@@ -12,7 +12,7 @@ steps:
         # Baixar o segredo e salvar em um arquivo JSON
         gcloud secrets versions access latest --secret="service-account-key" > /workspace/service_account_key.json
         gcloud auth activate-service-account --key-file=/workspace/service_account_key.json
-        gcloud config set project [azure-integration-405515]
+        gcloud config set project azure-integration-405515
     
   # Passo 2: Habilitar as APIs necessárias
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
