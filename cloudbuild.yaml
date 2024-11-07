@@ -15,12 +15,12 @@ steps:
         gcloud config set project azure-integration-405515
     
   # Passo 2: Habilitar as APIs necessárias
-  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-    id: "Enable APIs"
-    args:
-      - "services"
-      - "enable"
-      - "cloudresourcemanager.googleapis.com"
+#  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+#    id: "Enable APIs"
+#    args:
+#      - "services"
+#      - "enable"
+#      - "cloudresourcemanager.googleapis.com"
     
   # Passo 3: Criar o projeto na Organization B
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
