@@ -1,6 +1,5 @@
 options:
   logging: CLOUD_LOGGING_ONLY
-  
 steps:
   # Passo 1: Obter o segredo do Secret Manager e autenticar
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -13,26 +12,18 @@ steps:
         gcloud secrets versions access latest --secret="service-account-key" > /workspace/service_account_key.json
         gcloud auth activate-service-account --key-file=/workspace/service_account_key.json
         gcloud config set project azure-integration-405515
-    
-  # Passo 2: Habilitar as APIs necessárias
-#  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-#    id: "Enable APIs"
-#    args:
-#      - "services"
-#      - "enable"
-#      - "cloudresourcemanager.googleapis.com"
-    
+
+  
   # Passo 3: Criar o projeto na Organization B
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     id: "Create Project"
     args:
+      - "gcloud"
       - "projects"
       - "create"
       - "${_NEW_PROJECT_ID}"
       - "--organization=${_ORGANIZATION_ID_B}"
       - "--labels=created-by=cloud-build"
-    
-  # Passo 4: Configurar IAM e outras configurações no novo projeto, se necessário
 
 substitutions:
   _NEW_PROJECT_ID: "rodrigo-teste"  # Substitua pelo ID desejado do novo projeto
