@@ -1,3 +1,6 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+  
   steps:
   # Passo 1: Obter o segredo do Secret Manager e autenticar
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
