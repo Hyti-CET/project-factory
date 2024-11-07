@@ -26,7 +26,7 @@ steps:
       - "--labels=created-by=cloud-build"
 
 substitutions:
-  _NEW_PROJECT_ID: "rodrigo-teste"  # Substitua pelo ID desejado do novo projeto
+  _NEW_PROJECT_ID: "rodrigo-teste-ci001"  # Substitua pelo ID desejado do novo projeto
   _ORGANIZATION_ID_B: "653492276671"  # Substitua pelo ID da Organization B
 
 timeout: "600s"  # Ajuste conforme necessário
