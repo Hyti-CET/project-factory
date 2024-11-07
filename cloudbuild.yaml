@@ -1,25 +1,37 @@
-options:
-  logging: CLOUD_LOGGING_ONLY
-  
 steps:
-- name: 'gcr.io/cloud-builders/git'
-  entrypoint: 'bash'
-  args:
-  - '-c'
-  - |
-    git clone https://github.com/Hyti-CET/project-factory.git && cd seu-repositorio
-
-- name: 'hashicorp/terraform'
-  entrypoint: 'sh'
-  args:
-  - '-c'
-  - |
-    terraform init && terraform apply -var "project_name=p-${_PROJECT_NAME}" -var "owner_email=${_OWNER_EMAIL}" -auto-approve
-
-timeout: '1200s'  # Timeout de 20 minutos
+  # Passo 1: Configurar a autenticação com a service account da Organization B
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: "Authenticate Service Account"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        echo $SERVICE_ACCOUNT_KEY | base64 -d > /workspace/service_account_key.json
+        gcloud auth activate-service-account --key-file=/workspace/service_account_key.json
+        gcloud config set project azure-integration-405515
+    
+  # Passo 2: Habilitar as APIs necessárias
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: "Enable APIs"
+    args:
+      - "services"
+      - "enable"
+      - "cloudresourcemanager.googleapis.com"
+    
+  # Passo 3: Criar o projeto na Organization B
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: "Create Project"
+    args:
+      - "projects"
+      - "create"
+      - "${_NEW_PROJECT_ID}"
+      - "--organization=${_ORGANIZATION_ID_B}"
+      - "--labels=created-by=cloud-build"
+    
+  # Passo 4: Configurar IAM e outras configurações no novo projeto, se necessário
 
 substitutions:
-  _PROJECT_NAME: 'nome-do-projeto'
-  _OWNER_EMAIL: 'email-do-solicitante'
+  _NEW_PROJECT_ID: "rodrigo-teste"  # Substitua pelo ID desejado do novo projeto
+  _ORGANIZATION_ID_B: "653492276671"  # Substitua pelo ID da Organization B
 
-serviceAccount: 'azure-devops@azure-integration-405515.iam.gserviceaccount.com'
+timeout: "600s"  # Ajuste conforme necessário
